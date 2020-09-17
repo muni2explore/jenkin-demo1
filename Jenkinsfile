@@ -1,14 +1,19 @@
 pipeline {
-  agent any
-  stages {
-    stage('stage-1') {
-      steps {
-        sh 'echo "Hello from Jenkins $DEMO"'
-      }
+    agent {
+        docker { image 'node:7-alpine' }
     }
+    stages {
+        stage('Test') {
+            steps {
+                displayNodeVersion()
+            }
+        }
+    }
+}
 
-  }
-  environment {
-    DEMO = '1.0'
-  }
+void displayNodeVersion() {
+    sh '''
+    node --version
+    ls
+    '''
 }
